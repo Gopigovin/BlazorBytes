@@ -36,7 +36,7 @@ namespace BlazorApp1.Data
             return text;
         }
 
-        public string templateLocation = @"D:\playground\BlazorApp1\BlazorApp1\EJSBlazorEditor\EJSBlazorEditor";
+        public string templateLocation = Path.Combine(Directory.GetCurrentDirectory(), "EJSBlazorEditor/EJSBlazorEditor");
 
         Process process = new Process();
 
@@ -114,7 +114,7 @@ namespace BlazorApp1.Data
                 //File.SetAttributes(pathFile, FileAttributes.Normal);
                 ClearAttributes(pathFile);
                 Directory.Delete(pathFile, true);
-                publishFile = Path.Combine(Directory.GetCurrentDirectory(), "Publish/" + "Result");
+                publishFile = Path.Combine(Directory.GetCurrentDirectory(), "Publish" + "\\" + "Result");
                 //proc1.UseShellExecute = true;
                 //proc1.WorkingDirectory = @"C:\Windows\System32";
                 //proc1.FileName = @"C:\Windows\System32\cmd.exe";
