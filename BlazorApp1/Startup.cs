@@ -52,10 +52,10 @@ namespace BlazorApp1
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Publish/Result"))
-            });
+            // app.UseStaticFiles(new StaticFileOptions
+            // {
+                // FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Publish/Result"))
+            // });
             //app.UseDirectoryBrowser(new DirectoryBrowserOptions
             //{
             //    FileProvider = new PhysicalFileProvider(
