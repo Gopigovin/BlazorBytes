@@ -1,0 +1,121 @@
+﻿@page "/"
+
+@inject IJSRuntime JSRuntime
+@using BlazorApp1.Data;
+
+<div class="navbar navbar-inverse navbar-fixed-top card-2">
+    <div class="container1">
+        <div class="navbar-header">
+            <div id="logo" class="icon-uniE77E"></div>
+            <span class="esp">Sync Live</span><span class="mvc">Blazor</span>
+            <EjsButton ID="runbutton">Run</EjsButton>
+
+            <EjsButton id="save">save </EjsButton>
+            <EjsButton id="openbtn">Result</EjsButton>
+
+        </div>
+
+    </div>
+</div>
+<div>
+    <div class="content-container-fluid">
+        <div class="row">
+            <div class="cols-sample-area card card-1">
+                <!----------------Splitter Control---------------->
+                <EjsSplitter ID="outterSpliter" Width="100%" SeparatorSize="3">
+                    <SplitterPanes>
+                        <SplitterPane Collapsible="true">
+                            <ChildContent>
+                                <div>
+                                    <EjsSplitter ID="innerSpliter1" SeparatorSize="3" Orientation="Orientation.Vertical">
+                                        <SplitterPanes>
+                                            <SplitterPane Size="50%" Collapsible="true">
+                                                <div id="pane1">
+                                                    <div class="cont">
+                                                        <textarea id="viewCode">@this.pageCode</textarea>
+                                                        @*<span id="view" class="span sh">Page</span>*@
+                                                    </div>
+                                                </div>
+                                            </SplitterPane>
+                                            <SplitterPane Collapsible="true">
+                                                <div id="pane2">
+                                                    <div class="cont">
+                                                        <textarea id="modelCode" value="@this.startUpCode"></textarea>
+                                                        @*<span id="model" class="span sh"></span>*@
+                                                    </div>
+                                                </div>
+                                            </SplitterPane>
+                                        </SplitterPanes>
+                                    </EjsSplitter>
+                                </div>
+                            </ChildContent>
+                        </SplitterPane>
+                        <SplitterPane>
+                            <ChildContent>
+                                <div>
+                                    <EjsSplitter ID="innerSpliter2" SeparatorSize="3" Orientation="Orientation.Vertical">
+                                        <SplitterPanes>
+                                            <SplitterPane Size="50%" Collapsible="true">
+                                                <div id="pane3">
+                                                    <div class="cont">
+                                                        <textarea id="controllerCode">@this.hostHtmlCode</textarea>
+                                                        @*<span id="controller" class="span sh">Controller</span>*@
+                                                    </div>
+                                                </div>
+                                            </SplitterPane>
+                                            <SplitterPane Collapsible="true">
+                                                <div id="pane4" style="position:relative;">
+                                                    <a href="https://localhost:5001/" class="section-label show" style="opacity: 1.2; " id="view-fullscreen" title="View in Full Screen" target="_blank"><span id="full" class="e-icon span"></span></a>
+
+                                                    <div class="cont" id="iframe">
+                                                    </div>
+                                                </div>
+                                            </SplitterPane>
+                                        </SplitterPanes>
+                                    </EjsSplitter>
+                                </div>
+                            </ChildContent>
+                        </SplitterPane>
+                    </SplitterPanes>
+                </EjsSplitter>
+                <!------------------------------------------------->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+@code{
+
+    private string pageCode { get; set; }
+    private string startUpCode { get; set; }
+    private string hostHtmlCode { get; set; }
+
+    LiveEditor liveEditor = new LiveEditor();
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.pageCode = liveEditor.getPageText();
+        this.startUpCode = liveEditor.getStartUpText();
+        this.hostHtmlCode = liveEditor.getHostHtmlText();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("exampleJsFunctions.initialize", DotNetObjectReference.Create(this));
+    }
+
+    [JSInvokable]
+
+    public void onBuild(DataValue data)
+    {
+        liveEditor.BuildEngine(data, JSRuntime);
+    }
+
+    
+
+}
