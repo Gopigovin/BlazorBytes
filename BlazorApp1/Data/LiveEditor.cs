@@ -72,7 +72,7 @@ namespace BlazorApp1.Data
             string dotnetRestore = "dotnet restore";
             string dotnetBuild = "dotnet build";
             string dotnetRun = "dotnet run";
-            string publishFile = Path.Combine(Directory.GetCurrentDirectory(), "Publish/" + "Result");
+            string publishFile = Path.Combine(Directory.GetCurrentDirectory(), "Publish" + "\\" + "Result");
             string dotnetPublish = "dotnet publish -c Release -o " + publishFile;
 
             if (Directory.Exists(publishFile))
